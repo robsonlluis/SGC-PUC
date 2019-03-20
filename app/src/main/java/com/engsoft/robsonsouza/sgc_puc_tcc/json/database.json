@@ -1,0 +1,14 @@
+{
+  "ClienteAluno": {
+	  "1": {
+		  "CPF": "01234567890",
+		  "Nome": "Aluno01",
+		  "Endereco": "Rua Brasil, N°01, Apartamento 01",
+		  "Estado": "São Paulo",
+		  "Municipio": "São Paulo",
+		  "Telefone": "01234567890",
+		  "E-mail": "aluno01@email.com",
+		  "Senha":"aluno01"
+	  }
+  }
+}
