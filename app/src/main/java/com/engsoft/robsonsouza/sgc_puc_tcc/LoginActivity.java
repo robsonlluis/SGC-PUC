@@ -29,8 +29,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
+import java.net.HttpURLConnection;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -298,6 +305,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private URL url = null;
+        BufferedReader reader = null;
+        StringBuilder stringBuilder;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -310,8 +320,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                //Thread.sleep(2000);
+
+                url = new URL("http://localhost:54087/api/ClienteAluno/Aluno01@dominio.com.br/123");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // just want to do an HTTP GET here
+                connection.setRequestMethod("GET");
+
+                // uncomment this if you want to write output to this url
+                //connection.setDoOutput(true);
+
+                // give it 15 seconds to respond
+                connection.setReadTimeout(15*1000);
+                connection.connect();
+                int x = connection.getResponseCode();
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    stringBuilder = new StringBuilder();
+
+                    String line = null;
+                    while ((line = reader.readLine()) != null)
+                    {
+                        stringBuilder.append(line);
+                    }
+
+                    JSONObject obj = new JSONObject(stringBuilder.toString());
+                    String resultado = obj.getString("resultado");
+                    resultado = "";
+                }
+
+            } catch (Exception e) {
                 return false;
             }
 
