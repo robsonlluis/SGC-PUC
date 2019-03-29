@@ -321,34 +321,46 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                //Thread.sleep(2000);
-
+                //Robson Souza.
+                //URL para acessar o REST.
                 url = new URL("http://192.168.0.5:8090/api/ClienteAluno/"+mEmail+"/"+mPassword);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-                // just want to do an HTTP GET here
+                //Robson Souza.
+                //Configura o método para GET
                 connection.setRequestMethod("GET");
 
-                // uncomment this if you want to write output to this url
-                //connection.setDoOutput(true);
-
-                // give it 15 seconds to respond
+                //Robson Souza.
+                //Especifica o tempo máximo de aguardo em segundos(timeout).
                 connection.setReadTimeout(15*1000);
                 connection.connect();
-                int x = connection.getResponseCode();
+
+                //Robson Souza.
+                //Verifica se a conexão foi bem sucedida.
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                    //Robson Souza.
+                    //Lê a resposta do REST.
                     reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     stringBuilder = new StringBuilder();
 
+                    //Robson Souza.
+                    //Transforma a resposta em String.
                     String line = null;
                     while ((line = reader.readLine()) != null)
                     {
                         stringBuilder.append(line);
                     }
 
+                    //Robson Souza.
+                    //Transforma a resposta em Json.
                     JSONObject obj = new JSONObject(stringBuilder.toString());
+
+                    //Robson Souza.
+                    //Recupera o valor da chave "resultado".
                     String resultado = obj.getString("resultado");
+
+                    //Robson Souza.
+                    //Retorna true para sucesso(credenciais válidas) e false para falha no login(credenciais invalidas).
                     return resultado.equals("True") ? true : false;
                 }
 
@@ -356,15 +368,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -377,16 +380,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String texto;
             int duracao = Toast.LENGTH_SHORT;
 
+            //Robson Souza.
+            //Verifica o retorno do REST.
             if (success) {
-                //finish();
+                //Robson Souza.
+                //Caso sucesso do login.
                 texto = "SUCESSO. Usuário e senha corretos.";
+
+                //Robson Souza.
+                //Exibe mensagem.
                 Toast toast = Toast.makeText(contexto, texto,duracao);
                 toast.show();
             } else {
-                //mPasswordView.setError(getString(R.string.error_incorrect_password));
-                //mPasswordView.requestFocus();
+                //Robson Souza.
+                //Caso falha do login.
+                texto = "FALHA. Usuário e/ou senha incorretos.";
 
-                texto = "FALHA. Usuário e senha incorretos.";
+                //Robson Souza.
+                //Exibe mensagem.
                 Toast toast = Toast.makeText(contexto, texto,duracao);
                 toast.show();
 
