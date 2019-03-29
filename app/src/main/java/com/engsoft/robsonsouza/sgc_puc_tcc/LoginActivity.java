@@ -3,6 +3,7 @@ package com.engsoft.robsonsouza.sgc_puc_tcc;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -322,7 +324,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Simulate network access.
                 //Thread.sleep(2000);
 
-                url = new URL("http://localhost:54087/api/ClienteAluno/Aluno01@dominio.com.br/123");
+                url = new URL("http://192.168.0.5:8090/api/ClienteAluno/"+mEmail+"/"+mPassword);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 // just want to do an HTTP GET here
@@ -347,7 +349,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     JSONObject obj = new JSONObject(stringBuilder.toString());
                     String resultado = obj.getString("resultado");
-                    resultado = "";
+                    return resultado.equals("True") ? true : false;
                 }
 
             } catch (Exception e) {
@@ -371,11 +373,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
+            Context contexto = getApplicationContext();
+            String texto;
+            int duracao = Toast.LENGTH_SHORT;
+
             if (success) {
-                finish();
+                //finish();
+                texto = "SUCESSO. Usuário e senha corretos.";
+                Toast toast = Toast.makeText(contexto, texto,duracao);
+                toast.show();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                //mPasswordView.setError(getString(R.string.error_incorrect_password));
+                //mPasswordView.requestFocus();
+
+                texto = "FALHA. Usuário e senha incorretos.";
+                Toast toast = Toast.makeText(contexto, texto,duracao);
+                toast.show();
+
             }
         }
 
