@@ -14,6 +14,14 @@ Utilize o endereço IP recuperado na classe `LoginActivity.java` na linha:
 url = new URL("http://192.168.0.5:8090/api/ClienteAluno/"+mEmail+"/"+mPassword)
 ```
 
+Utilize os seguintes e-mails e senhas de teste para efetuar login com sucesso.
+
+Usuários | Senhas
+--------- | ------
+aluno01@dominio.com.br | 12345
+aluno02@dominio.com.br | 12345
+aluno03@dominio.com.br | 12345
+
 ## Instalando
 
 Basta fazer o download do .ZIP ou via GET.
